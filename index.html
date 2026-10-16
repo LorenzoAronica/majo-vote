@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1630">
+  <meta name="description" content="Majorana Vote: organizza i tuoi voti, calcola le medie e scopri quali risultati ti servono per raggiungere il tuo obiettivo.">
+  <title>Majorana Vote · Pianifica i tuoi voti</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-glow" aria-hidden="true"></div>
+  <header class="topbar container">
+    <a href="./" class="brand" aria-label="Majorana Vote, torna all'inizio">
+      <span class="brand-mark">M<span>·</span></span>
+      <span class="brand-text"><strong>MAJORANA</strong><small>VOTE</small></span>
+    </a>
+    <div class="topbar-right">
+      <span class="privacy-tag"><span class="privacy-dot"></span> Dati salvati solo su questo dispositivo</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> IL TUO ALLEATO NELLO STUDIO</div>
+        <h1 id="hero-title">La tua media.<br><span>Il tuo obiettivo.</span></h1>
+        <p>Inserisci i voti, scegli dove vuoi arrivare e scopri quali risultati ti servono nelle prossime verifiche. Niente supposizioni, solo calcoli.</p>
+        <div class="hero-actions">
+          <button class="button button-primary" id="hero-add" type="button">+ Aggiungi una materia <span aria-hidden="true">↗</span></button>
+          <button class="button button-ghost" id="load-demo" type="button">Prova con dati di esempio</button>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-grid"></div>
+        <div class="art-card art-card-main"><span class="art-kicker">IL TUO PROSSIMO OBIETTIVO</span><span class="art-number">9<span class="art-suffix">/10</span></span><span class="art-bar"><span></span></span><span class="art-note">Un voto alla volta.</span></div>
+        <div class="art-float art-float-top">↗ <strong>+ Focus</strong></div>
+        <div class="art-float art-float-bottom">✦ <strong>Più chiarezza</strong></div>
+      </div>
+    </section>
+
+    <section class="dashboard-summary" aria-label="Riepilogo voti">
+      <div class="metric"><div class="metric-label">Media generale <span class="tip" title="Media delle medie delle materie con almeno un voto; non è il voto finale in pagella">ⓘ</span></div><div class="metric-value" id="overall-average">—</div><div class="metric-detail">Stima tra le materie registrate</div></div>
+      <div class="metric"><div class="metric-label">Materie</div><div class="metric-value" id="subject-count">0</div><div class="metric-detail">Nel tuo piano di studio</div></div>
+      <div class="metric"><div class="metric-label">Voti inseriti</div><div class="metric-value" id="grade-count">0</div><div class="metric-detail">Con peso personalizzabile</div></div>
+    </section>
+
+    <div class="section-heading"><div><div class="eyebrow eyebrow-dark">IL TUO SPAZIO</div><h2>Dashboard voti</h2></div><button class="text-button" id="reset-data" type="button">Cancella tutti i dati</button></div>
+
+    <div class="workspace">
+      <section class="panel subject-panel" aria-labelledby="subjects-title">
+        <div class="panel-header"><div><h3 id="subjects-title">Le tue materie</h3><p>Seleziona una materia per gestire voti e obiettivi.</p></div></div>
+        <div id="subject-list" class="subject-list" aria-live="polite"></div>
+        <form id="subject-form" class="subject-form">
+          <label for="subject-name">Nuova materia</label>
+          <div class="input-with-button"><input id="subject-name" name="subject" autocomplete="off" placeholder="Es. Matematica" maxlength="45" required><button class="add-square" type="submit" aria-label="Aggiungi materia">+</button></div>
+        </form>
+      </section>
+
+      <section class="panel detail-panel" aria-label="Dettaglio materia e simulatore">
+        <div id="empty-detail" class="empty-detail"><div class="empty-icon">✦</div><h3>Partiamo da una materia</h3><p>Aggiungi la tua prima materia oppure carica l'esempio. Qui vedrai la media e i voti necessari per raggiungere il tuo obiettivo.</p></div>
+        <div id="detail-content" hidden>
+          <div class="detail-head"><div><div class="eyebrow eyebrow-dark">MATERIA SELEZIONATA</div><h3 id="active-subject-name">Matematica</h3></div><button type="button" id="delete-subject" class="icon-text-danger" title="Elimina la materia">Elimina</button></div>
+          <div class="subject-stats"><div><span>Media attuale</span><strong id="subject-average">—</strong></div><div><span>Numero voti</span><strong id="subject-grade-count">0</strong></div><div><span>Obiettivo</span><strong id="subject-target-badge">9,0</strong></div></div>
+          <div class="subhead"><h4>I tuoi voti</h4><span>I pesi dipendono dal tuo docente</span></div>
+          <div id="grade-list" class="grade-list"></div>
+          <form id="grade-form" class="grade-form">
+            <div class="field"><label for="grade-value">Voto (1–10)</label><input id="grade-value" name="value" inputmode="decimal" type="number" min="1" max="10" step="0.01" placeholder="Es. 7,5" required></div>
+            <div class="field"><label for="grade-weight">Peso</label><select id="grade-weight" name="weight"><option value="0.25">25%</option><option value="0.5">50%</option><option value="1" selected>100%</option><option value="1.5">150%</option><option value="2">200%</option></select></div>
+            <button type="submit" class="button button-dark">+ Aggiungi voto</button>
+          </form>
+          <div class="divider"></div>
+          <div class="simulator-heading"><div><div class="eyebrow eyebrow-dark">SIMULATORE</div><h4>A che media vuoi arrivare?</h4><p>Scopri cosa serve nelle prossime verifiche.</p></div><div class="target-input"><label for="target-value">Media desiderata</label><input id="target-value" type="number" min="1" max="10" step="0.1" value="9" inputmode="decimal"></div></div>
+          <div id="simulator-result" aria-live="polite"></div>
+          <p class="simulator-fineprint">Le simulazioni presumono che i prossimi voti abbiano peso 100% e usano voti a incrementi di 0,5 per proporre esempi. Il risultato è una media aritmetica, non una previsione del voto in pagella.</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="info-strip"><div class="info-icon">i</div><div><strong>Un consiglio importante</strong><p>Le medie sono indicative: il voto finale può dipendere anche da criteri didattici e valutazioni del docente. Questo sito non è un registro elettronico ufficiale.</p></div></section>
+  </main>
+  <footer class="footer container"><span>© <span id="year"></span> Majorana Vote · Un progetto indipendente per gli studenti</span><span>Ideato per imparare, migliorare, crescere.</span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
